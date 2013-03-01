@@ -1,4 +1,29 @@
-maven-jpublisher-plugin
+Maven JPublisher Plugin
 =======================
 
-Maven plugin for generating Java classes from SQL types with Oracle JPublisher
+Maven plugin for generating Java classes from SQL types and packages with [Oracle JPublisher](http://docs.oracle.com/cd/B28359_01/java.111/b31226/intro.htm "Oracle JPublisher documentation")
+
+Usage
+-----
+
+    <plugin>
+        <groupId>hu.vanio.maven.plugins</groupId>
+        <artifactId>maven-jpublisher-plugin</artifactId>
+        <version>1.0.0</version>
+        <configuration>
+            <dbUrl>jdbc:oracle:thin:@my_oracle_host:1521:SID</dbUrl>
+            <dbUser>scott</dbUser>
+            <dbPassword>tiger</dbPassword>
+            <skip>false</skip>
+            <propsFile>${basedir}/src/main/jpublisher/props.txt</propsFile>
+            <typeListFile>${basedir}/src/main/jpublisher/typelist.txt</typeListFile>
+        </configuration>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>generate</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>
+
