@@ -1,4 +1,4 @@
-package com.gyszalai.maven.plugins.jpublisher;
+package hu.vanio.maven.plugins.jpublisher;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
