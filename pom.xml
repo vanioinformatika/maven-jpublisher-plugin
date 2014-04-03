@@ -103,7 +103,7 @@
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>sqlj-translator</artifactId>
-            <version>10.2.0.0.0</version>
+            <version>11.1.0.0.0</version>
             <scope>compile</scope>
         </dependency>
         
@@ -220,9 +220,9 @@
 
     <distributionManagement>
         <repository>
-            <id>${repo-id}</id>
-            <name>${repo-name}</name>
-            <url>${repo-url}</url>
+            <id>releases</id>
+            <name>releases</name>
+            <url>${releases-repo-url}</url>
         </repository>
     </distributionManagement>
 
