@@ -28,4 +28,4 @@ Usage
     </executions>
 </plugin>
 ```
-- executable: java verison to start oracle jpub plugin
+- executable: java version to start oracle jpub plugin
