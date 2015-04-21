@@ -9,7 +9,7 @@ Usage
 <plugin>
     <groupId>hu.vanio.maven.plugins</groupId>
     <artifactId>maven-jpublisher-plugin</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <configuration>
         <executable>/opt/java5/bin/java</executable>  
         <dbUrl>jdbc:oracle:thin:@my_oracle_host:1521:SID</dbUrl>
