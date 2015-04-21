@@ -34,12 +34,13 @@ import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
- * This goal calls Oracle JPublisher to generate Java classes from Oracle SQL types and procedures
+ * This goal calls Oracle JPublisher to generate Java classes from Oracle SQL
+ * types and procedures
  *
  * @author Gyula Szalai <gyszalai@gmail.com>
  */
-@Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES, 
-      threadSafe = true, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME)
+@Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES,
+        threadSafe = true, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME)
 public class JpublisherGenerateMojo extends AbstractMojo {
 
     /** Classpath separator */
@@ -68,6 +69,12 @@ public class JpublisherGenerateMojo extends AbstractMojo {
     /** JPublisher typelist file (-input command line switch) */
     @Parameter(defaultValue = "${project.basedir}/src/main/jpublisher/jpub-typelist.txt")
     private String typeListFile;
+    /**
+     * Sets the executable of the compiler to use when {@link #fork} is
+     * <code>true</code>.
+     */
+    @Parameter
+    private String executable;
 
     /**
      * Main entry point
@@ -79,7 +86,7 @@ public class JpublisherGenerateMojo extends AbstractMojo {
             getLog().info("JPublisher code generation has been skipped per configuration of the skip parameter.");
             return;
         }
-        
+
         String genSourceRoot = project.getBasedir().toString() + "/target/generated-sources/jpublisher";
         FileUtils.mkdir(genSourceRoot);
         project.addCompileSourceRoot(genSourceRoot);
@@ -101,9 +108,11 @@ public class JpublisherGenerateMojo extends AbstractMojo {
     }
 
     /**
-     * Creates a classpath string from runtime dependencies of the active project
+     * Creates a classpath string from runtime dependencies of the active
+     * project
      * @return The generated classpath string
-     * @throws MojoExecutionException If getting runtime dependencies fails for any reason
+     * @throws MojoExecutionException If getting runtime dependencies fails for
+     * any reason
      */
     private String getRuntimeClasspath() throws MojoExecutionException {
         StringBuilder sb = new StringBuilder();
@@ -128,16 +137,24 @@ public class JpublisherGenerateMojo extends AbstractMojo {
 
     /**
      * Starts the JPublisher generator process
-     * @param genSourceRoot The source root where the generated sources will be generated
+     * @param genSourceRoot The source root where the generated sources will be
+     * generated
      */
     private void startJpublisherProcess(String genSourceRoot) throws IOException, InterruptedException, MojoExecutionException, DependencyResolutionRequiredException {
-        
+
         String javaHome = System.getenv("JAVA_HOME");
         String classPath = this.getRuntimeClasspath();
         this.getLog().debug("Classpath: " + classPath);
 
         StringBuilder jpubCommand = new StringBuilder();
-        jpubCommand.append(javaHome).append("/bin/java ");
+        if (executable == null) {
+            jpubCommand.append(javaHome).append("/bin/java ");
+            this.getLog().info("Java path: " + jpubCommand);
+        } else {
+            jpubCommand.append(executable).append(" ");
+            this.getLog().info("Java path: " + jpubCommand);
+        }
+
         jpubCommand.append(String.format("-cp %s ", classPath));
         jpubCommand.append("oracle.jpub.Main ");
         jpubCommand.append(String.format("-url=%s ", dbUrl));
@@ -145,8 +162,8 @@ public class JpublisherGenerateMojo extends AbstractMojo {
         jpubCommand.append(String.format("-dir=%s ", genSourceRoot));
         jpubCommand.append(String.format("-props=%s ", propsFile));
         jpubCommand.append(String.format("-input=%s ", typeListFile));
-        
-        this.getLog().debug("Starting process: " + jpubCommand);
+
+        this.getLog().info("Starting process: " + jpubCommand);
 
         Process p = Runtime.getRuntime().exec(jpubCommand.toString());
         readAndPrintStream(p.getInputStream());
@@ -155,7 +172,7 @@ public class JpublisherGenerateMojo extends AbstractMojo {
 
         this.getLog().debug("Exit value: " + exitValue);
     }
-    
+
     private void readAndPrintStream(InputStream is) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         try {
@@ -167,5 +184,5 @@ public class JpublisherGenerateMojo extends AbstractMojo {
             reader.close();
         }
     }
-    
+
 }
