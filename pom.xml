@@ -10,7 +10,7 @@
 
     <groupId>hu.vanio.maven.plugins</groupId>
     <artifactId>maven-jpublisher-plugin</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>Maven JPublisher Plugin</name>
@@ -237,7 +237,7 @@
     <scm>
         <connection>scm:git:file://localhost/${project.basedir}</connection>
         <developerConnection>scm:git:file://localhost/${project.basedir}</developerConnection>
-        <tag>maven-jpublisher-plugin-1.1.1</tag>
+        <tag>HEAD</tag>
     </scm>
   
 </project>
