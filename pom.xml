@@ -10,7 +10,7 @@
 
     <groupId>hu.vanio.maven.plugins</groupId>
     <artifactId>maven-jpublisher-plugin</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>Maven JPublisher Plugin</name>
