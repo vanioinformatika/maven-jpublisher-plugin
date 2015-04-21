@@ -73,7 +73,7 @@ public class JpublisherGenerateMojo extends AbstractMojo {
      * Sets the executable of the compiler to use when {@link #fork} is
      * <code>true</code>.
      */
-    @Parameter(property = "maven.compiler.executable")
+    @Parameter
     private String executable;
 
     /**
@@ -147,10 +147,12 @@ public class JpublisherGenerateMojo extends AbstractMojo {
         this.getLog().debug("Classpath: " + classPath);
 
         StringBuilder jpubCommand = new StringBuilder();
-        if (executable != null) {
+        if (executable == null) {
             jpubCommand.append(javaHome).append("/bin/java ");
+            this.getLog().info("Java path: " + jpubCommand);
         } else {
-            jpubCommand.append(executable);
+            jpubCommand.append(executable).append(" ");
+            this.getLog().info("Java path: " + jpubCommand);
         }
 
         jpubCommand.append(String.format("-cp %s ", classPath));
@@ -161,7 +163,7 @@ public class JpublisherGenerateMojo extends AbstractMojo {
         jpubCommand.append(String.format("-props=%s ", propsFile));
         jpubCommand.append(String.format("-input=%s ", typeListFile));
 
-        this.getLog().debug("Starting process: " + jpubCommand);
+        this.getLog().info("Starting process: " + jpubCommand);
 
         Process p = Runtime.getRuntime().exec(jpubCommand.toString());
         readAndPrintStream(p.getInputStream());
